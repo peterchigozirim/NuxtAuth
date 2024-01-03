@@ -7,11 +7,22 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@pinia-plugin-persistedstate/nuxt',
     'nuxt-icon',
+    '@nuxtjs/color-mode'
   ],
+  colorMode: {
+    classSuffix: ''
+  },
   plugins: [
     { src: '~/plugins/toast', ssr: false }
   ],
   router: {
     middleware: ['auth', 'guest']	
-  }
+  },
+  app: {
+    head: {
+      bodyAttrs: {
+        class: 'dark:bg-black dark:text-white',
+      },
+    },
+  },
 })

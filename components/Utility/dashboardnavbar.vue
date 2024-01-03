@@ -27,9 +27,9 @@
             <div class="md:block hidden font-semibold">
                 <p>Dashboard</p>
             </div>
-            <div>
+            <div class="flex gap-4">
                 <div>
-                    
+                    <UtilityTogglemode />
                 </div>
                 <div class="flex gap-1 cursor-pointer" @click="openNav = !openNav">
                     <div class="h-9 w-9 rounded-full bg-icon  flex items-center justify-center text-lg">
@@ -77,14 +77,14 @@
 </template>
 
 <script setup>
-
   const auth = authStore()
-
+  const emit = defineEmits(["navAll"]);
   const openNav = ref(false)
   const nav = ref(false)
   const navAll = ()=>{
       nav.value = !nav.value
       emit('navAll')
+      
   }
 
   const logout = async ()=>{

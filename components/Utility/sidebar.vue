@@ -9,30 +9,25 @@
             <div>
                 <ul class="capitalize space-y-6">
                     <li>
-                        <NuxtLink to="#" class="py-1 flex items-center hover:text-icon" active-class="text-icon">
-                            <i class="ri-function-fill mr-2 text-xl"></i> <span>Trade</span>
+                        <NuxtLink to="/dashboard" class="py-1 flex items-center hover:text-icon" active-class="text-orange-400">
+                            <icon name="ri:dashboard-line" class="mr-2 text-xl text-white"/> <span>Dashboard</span>
                         </NuxtLink>
                     </li>
 
                     <li>
-                        <NuxtLink to="#" class="py-1 flex items-center hover:text-icon" active-class="text-icon">
-                            <i class="ri-bar-chart-fill mr-2 text-xl"></i> <span>Trade Overview</span>
+                        <NuxtLink to="/dashboard/parcel" class="py-1 flex items-center hover:text-icon" active-class="text-orange-400">
+                            <icon name="mdi:truck-fast" class="mr-2 text-xl text-white"/> <span>Parcel Overview</span>
                         </NuxtLink>
                     </li>
 
                     <li>
-                        <NuxtLink to="#" class="py-1 flex items-center hover:text-icon" active-class="text-icon">
-                            <i class="ri-currency-fill mr-2 text-xl"></i> <span>Deposit</span>
+                        <NuxtLink to="/dashboard/send-mail" class="py-1 flex items-center hover:text-icon" active-class="text-orange-400">
+                            <icon name="solar:inbox-unread-outline" class="mr-2 text-xl text-white"/> <span>send-Mail</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="#" class="py-1 flex items-center hover:text-icon" active-class="text-icon">
-                            <i class="ri-arrow-up-circle-line mr-2 text-xl"></i> <span>Withdraw</span>
-                        </NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink to="#" class="py-1 flex items-center hover:text-icon" active-class="text-icon">
-                            <i class="ri-settings-3-fill mr-2 text-xl"></i> <span>Settings</span>
+                        <NuxtLink to="/dashboard/quote-request" class="py-1 flex items-center hover:text-icon" active-class="text-orange-400">
+                            <icon name="bi:chat-left-quote" class="mr-2 text-xl text-white"/> <span>Quote Request</span>
                         </NuxtLink>
                     </li>
                 </ul>
@@ -41,8 +36,8 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-
+<script setup>
+    const emit = defineEmits(["close"]);
 </script>
 
 <style>

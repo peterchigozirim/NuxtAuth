@@ -10,12 +10,12 @@ export const useAuth = async (url, options) => {
 		};
 	}
 
-	if(process.server) {
-		headers = {
-			...headers,
-			...useRequestHeaders(['refers', 'cookie'])
-		};
-	}
+	// if(process.server) {
+	// 	headers = {
+	// 		...headers,
+	// 		...useRequestHeaders(['refers', 'cookie'])
+	// 	};
+	// }
 
 	return await useFetch("http://localhost:8000" + url, {
 		credentials: "include",
