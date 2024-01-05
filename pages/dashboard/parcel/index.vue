@@ -46,7 +46,8 @@
 
                             <div class="">
                                 <div class="flex flex-wrap gap-2">
-                                    <NuxtLink :to="`/dashboard/parcel/details-${parcel.id}`" @click="getDetails()" class="px-2 py-1 text-sm font-medium text-green-500 hover:text-white rounded bg-green-500/20 hover:bg-green-500/40">View More</NuxtLink>
+                                    <NuxtLink :to="`/dashboard/parcel/tracking_no=${parcel.tracking_number}`" @click="getDetails()" class="px-2 py-1 text-sm font-medium text-green-500 hover:text-white rounded bg-green-500/20 hover:bg-green-500/40">View More</NuxtLink>
+                                    <button @click="editParcel(parcel)" class="px-2 py-1 text-sm font-medium rounded bg-sky-500/20 hover:bg-sky-500/40 text-sky-500 hover:text-white">Edit</button>
                                     <button @click="deleteParcel(parcel.id)" class="px-2 py-1 text-sm font-medium rounded bg-red-500/20 hover:bg-red-500/40 text-red-500 hover:text-white">Delete</button>
                                 </div>
                             </div><!--end col-->
@@ -66,6 +67,15 @@
         <!-- End grid -->
       </div>
     </div>
+    
+    <UtilityModal :show="showModal" @close="showModal = false">
+      <div class="dark:bg-emerald-800 -left-2 h-10 flex items-center px-2">
+        {{ parcelData.tracking_number }}
+      </div>
+      <div>
+      
+      </div>
+    </UtilityModal>
   </div>
 </template>
 
@@ -77,15 +87,23 @@ import { useToast } from 'vue-toastification'
     middleware: ['auth', ]
   })
 
-  const  stores = parcelStore()
+  useHead({
+    title: 'Parcel Transactions',
+    meta: [
+      { name: 'description', content: 'Parcel details.' }
+    ],
+  })
 
+  const stores = parcelStore()
+  const showModal = ref(false)
   const updateData = (detail) => {
     stores.page = detail;
     stores.parcels = detail.data;
   };
-
-  const getDetails = (detail)=>{
-    // 
+  const parcelData = ref(null)
+  const editParcel = (detail)=>{
+    parcelData.value = detail
+    showModal.value = true
   }
   const toast = useToast()
   // const {data:parcels, error, pending} = await  useAsyncData('/api/parcel', () => useApi('/api/parcel'));

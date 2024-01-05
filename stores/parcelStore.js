@@ -4,10 +4,12 @@ import { useToast } from 'vue-toastification'
 export const parcelStore = defineStore('parcel', () => {
   const parcels = ref([]);
   const parcel = ref(null);
+  const logs = ref([])
   const page = ref(null)
   const loading = ref(false);
 
   async function fetchParcels()  {
+    loading.value = true;
     const { data, error, status, pending, refresh} = await useAuth('/api/parcel');
     if(error.value) {
       notify(error.value.message, 'error')
@@ -24,7 +26,8 @@ export const parcelStore = defineStore('parcel', () => {
     if(error.value) {
       toast.error(error.value.message)
     }
-    parcel.value = data.value;
+    parcel.value = data.value.parcel;
+    logs.value  = data.value.logs;
     loading.value = pending.value;
     console.log(pending.value);
   }
@@ -46,5 +49,5 @@ export const parcelStore = defineStore('parcel', () => {
     })
   }
 
-  return {fetchParcels, deleteParcel, parcels, parcel, notify, fetchOneParcel, page, loading} 
-})
+  return {fetchParcels, deleteParcel, fetchOneParcel, parcels, parcel, logs, notify, fetchOneParcel, page, loading} 
+}, {persist: true})
