@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dark:bg-black">
     <div class="h-16 flex max-w-6xl mx-auto justify-between items-center">
       <div>
         logo
@@ -16,8 +16,11 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-
+<script  setup>
+const store = authStore()
+onMounted(async()=>{
+    store.handleFetchUser()
+  })
 
 </script>
 

@@ -1,7 +1,11 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async(to, from) => {
     const auth = authStore();
+    const parcel = parcelStore();
 
     if (!auth.isLoginedIn) {
-        return navigateTo("/login", { replace: true });
+        return await navigateTo("/login", { replace: true });
     }
+    // else if(to === '/dashboard/parcel'){
+    //     await parcel.fetchParcels();
+    // }
 })

@@ -5,12 +5,13 @@
 </template>
 
 <script  setup>
-const store = authStore()
 import {definePageMeta} from '#imports'
 
+
+const store = authStore()
 definePageMeta({
   layout: 'authlayout',
-  middleware: ['auth']
+  middleware: ['watch-user']
 })
 
 </script>

@@ -5,11 +5,12 @@
       <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
     </div>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="submit">
+      <VeeForm class="space-y-6" :validation-schema="schema" @submit="submit">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-1">
-            <input id="email" v-model="form.email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
+            <VeeField name="email" type="email" :value="form.email" autocomplete="email" class="block w-full rounded-md outline-none border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
+            <VeeErrorMessage name="email" class="text-xs text-red-500" />
           </div>
         </div>
 
@@ -21,14 +22,15 @@
             </div>
           </div>
           <div class="mt-1">
-            <input id="password" v-model="form.password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
+            <VeeField id="password" name="password" :value="form.password" type="password" autocomplete="current-password" class="block w-full rounded-md outline-none border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6" />
+            <VeeErrorMessage name="password" class="text-xs text-red-500" />
           </div>
         </div>
 
         <div>
           <button type="submit" class="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">Sign in</button>
         </div>
-      </form>
+      </VeeForm>
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
@@ -55,17 +57,21 @@
 		password: "password",
 	});
 
-	const submit = async () => {
+  const schema = {
+        email: 'required|email',
+        password: 'required'
+    }
+
+	const submit = async (values, { resetForm }) => {
     loader.value = true
-		const {data, error, status} = await store.handleLogin(form.value);
-    if (!error.value == null) {
+		const {data, error, status} = await store.handleLogin(values);
+    if (!error.value === null) {
+      resetForm()
       toast.error(error.value.data.message) 
       loader.value = false
-    }
-    if(status.value === 'success'){
-        await store.handleFetchUser()
-        toast.success('Login Successful')
-        navigateTo('/dashboard')
+    }else if (status.value == 'success') {
+      toast.success('Login Successful')
+      return  navigateTo('/dashboard')
     }
 	};
 </script>

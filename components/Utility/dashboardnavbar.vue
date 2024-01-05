@@ -27,28 +27,28 @@
             <div class="md:block hidden font-semibold">
                 <p>Dashboard</p>
             </div>
-            <div class="flex gap-4">
+            <div class="flex gap-3 items-center">
                 <div>
                     <UtilityTogglemode />
                 </div>
-                <div class="flex gap-1 cursor-pointer" @click="openNav = !openNav">
-                    <div class="h-9 w-9 rounded-full bg-icon  flex items-center justify-center text-lg">
+                <div class="flex gap-1 items-center justify-center cursor-pointer" @click="openNav = !openNav">
+                    <div class=" text-lg">
                         <icon name="ic:sharp-person-3"></icon>
                     </div>
-                    <div class="flex items-center justify-center text-lg">
+                    <div class="text-lg">
                         <icon name="ic:outline-arrow-drop-down"></icon>
                     </div>
                 </div>
             </div>
 
-            <div v-show="openNav" class="w-64 overflow-hidden rounded bg-emerald-800/95 absolute pt-4 space-y-4 divide-y top-16 right-7 text-sm">
+            <div v-show="openNav" class="w-64 overflow-hidden transition-all duration-500 ease-in-out rounded bg-emerald-800/95 dark:bg-emerald-800 absolute pt-4 space-y-4 divide-y top-16 md:right-7 right-0 text-sm">
                 <div class="flex gap-2 items-center px-4">
                     <div class="h-8 w-8 rounded-full bg-yellow-700 text-xl flex items-center justify-center">
                         <icon name="ic:sharp-person-3"></icon>
                     </div>
                     <div>
-                        <!-- <p>{{ auth.user.name }}</p>
-                        <p class="text-gray-200">{{ auth.user.email }}</p> -->
+                        <p>{{ auth.user.name }}</p>
+                        <p class="text-gray-200">{{ auth.user.email }}</p>
                     </div>
                 </div>
 

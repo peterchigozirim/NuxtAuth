@@ -12,7 +12,9 @@ export const authStore = defineStore('auth', () => {
 				body: form,
 		    watch: false,
 			});
-      
+
+      const {data} = await useAuth("/api/user");
+      user.value = data.value.data
       return login;
   }
 
@@ -32,11 +34,11 @@ export const authStore = defineStore('auth', () => {
 
   async function handleFetchUser() {
     const {data, error} = await useAuth("/api/user");
-    user.value = data.value
     if(!error.value === null) {
       notify(error.value.message, 'error')
       return navigateTo("/login", { replace: true })
     }
+    user.value = data.value
   }
 
   async function handleLogout() {

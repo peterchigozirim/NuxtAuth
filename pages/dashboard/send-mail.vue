@@ -4,8 +4,11 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-
+<script setup>
+  definePageMeta({
+  layout: 'authlayout',
+  middleware: ['auth', 'watch-user']
+})
 </script>
 
 <style>

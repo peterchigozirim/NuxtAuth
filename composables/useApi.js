@@ -1,5 +1,5 @@
-export const useAuth = async (url, options) => {
-	const token = useCookie("XSRF-TOKEN");
+export const useApi = async(url, options) => {
+  const token = useCookie("XSRF-TOKEN");
 
 	let headers = {};
   
@@ -17,7 +17,7 @@ export const useAuth = async (url, options) => {
 		}
 	}
 
-	return await useFetch("http://localhost:8000" + url, {
+	return await useLazyFetch("http://localhost:8000" + url, {
 		credentials: "include",
 		...options,
 		headers: {
@@ -26,4 +26,4 @@ export const useAuth = async (url, options) => {
 			"Access-Control-Allow-Origin": "*",
 		},
 	}, {server : true});
-};
+}

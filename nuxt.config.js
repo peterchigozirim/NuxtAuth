@@ -7,22 +7,43 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@pinia-plugin-persistedstate/nuxt',
     'nuxt-icon',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@vee-validate/nuxt',
   ],
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'lax',
+    },
+  },
+  veeValidate: {
+    // disable or enable auto imports
+    autoImports: true,
+    // Use different names for components
+    componentNames: {
+      Form: 'VeeForm',
+      Field: 'VeeField',
+      FieldArray: 'VeeFieldArray',
+      ErrorMessage: 'VeeErrorMessage',
+      defineRule: 'defineRule',
+    },
+  },
   colorMode: {
     classSuffix: ''
   },
   plugins: [
-    { src: '~/plugins/toast', ssr: false }
+    { src: '~/plugins/toast', ssr: false },
+    { src: '~/plugins/vee-validate' },
+    { src: '~/plugins/loadUser' }
   ],
   router: {
-    middleware: ['auth', 'guest']	
+    middleware: ['auth', 'guest', 'watchUser']	
   },
   app: {
     head: {
       bodyAttrs: {
-        class: 'dark:bg-black dark:text-white',
+        class: 'dark:bg-black bg-emerald-50 dark:text-white',
       },
     },
   },
+  ssr:false
 })
