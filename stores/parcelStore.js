@@ -13,6 +13,8 @@ export const parcelStore = defineStore('parcel', () => {
     const { data, error, status, pending, refresh} = await useAuth('/api/parcel');
     if(error.value) {
       notify(error.value.message, 'error')
+      console.log(error.value);
+      console.log(status.value);
     }
     parcels.value = data.value.data;
     page.value = data.value;
@@ -25,6 +27,7 @@ export const parcelStore = defineStore('parcel', () => {
     const toast = useToast()
     if(error.value) {
       toast.error(error.value.message)
+      
     }
     parcel.value = data.value.parcel;
     logs.value  = data.value.logs;

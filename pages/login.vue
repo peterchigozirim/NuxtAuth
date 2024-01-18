@@ -69,7 +69,8 @@
       resetForm()
       toast.error(error.value.data.message) 
       loader.value = false
-    }else if (status.value == 'success') {
+    }else if (status.value === 'success') {
+      await store.handleFetchUser()
       toast.success('Login Successful')
       return  navigateTo('/dashboard')
     }

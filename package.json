@@ -17,6 +17,7 @@
     "dayjs-nuxt": "^2.1.9",
     "nuxt": "^3.9.0",
     "nuxt-icon": "^0.6.8",
+    "tailwind-scrollbar": "^3.0.5",
     "vue": "^3.3.13",
     "vue-router": "^4.2.5"
   },

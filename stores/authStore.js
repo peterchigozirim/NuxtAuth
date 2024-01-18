@@ -12,9 +12,6 @@ export const authStore = defineStore('auth', () => {
 				body: form,
 		    watch: false,
 			});
-
-      const {data} = await useAuth("/api/user");
-      user.value = data.value.data
       return login;
   }
 

@@ -7,15 +7,14 @@
 <script  setup>
 import {definePageMeta} from '#imports'
 
-
 const store = authStore()
+
+  onBeforeMount(async()=>{
+    store.handleFetchUser()
+  })
 definePageMeta({
   layout: 'authlayout',
-  middleware: ['watch-user']
+  middleware: ['auth']
 })
 
 </script>
-
-<style>
-
-</style>

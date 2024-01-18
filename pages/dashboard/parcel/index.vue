@@ -4,8 +4,8 @@
     <div v-else class="main-content">
       <div class="py-10 space-y-6 text-sm">
         <section class="">
-            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto flex justify-between items-center">
-              <div>
+            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto flex flex-col md:flex-row md:justify-between md:items-center">
+              <div class="w-full md:w-auto">
                 <form action="">
                   <div class="flex">
                     <input type="text" class="border-emerald-500 border rounded h-9 rounded-r-none border-r-0 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 placeholder-emerald-500 px-2 text-sm" placeholder="Search">
@@ -39,7 +39,7 @@
                                 <div class=" space-y-1">
                                     <p class="text-gray-500 text-muted dark:text-gray-300"><icon name="mdi:truck-fast" class="text-lg"/>  {{ parcel.tracking_number }}</p>
                                     <p class="text-gray-500 text-muted dark:text-gray-300"><icon name="ic:sharp-person-3" class="text-lg"></icon> Sender name: {{ parcel.sender_name }}</p>
-                                    <p class="text-gray-500 text-muted dark:text-gray-300"><icon name="ic:sharp-person-3" class="text-lg"></icon> Recepient name: {{ parcel.sender_name }}</p>
+                                    <p class="text-gray-500 text-muted dark:text-gray-300"><icon name="ic:sharp-person-3" class="text-lg"></icon> Recepient name: {{ parcel.recepient }}</p>
                                     <p class="text-gray-500 text-muted dark:text-gray-300"><icon name="solar:inbox-unread-outline" class="text-lg"/> Recepient email: {{ parcel.recepient_email }}</p>
                                 </div>
                             </div><!--end col-->
@@ -66,16 +66,8 @@
         </section>
         <!-- End grid -->
       </div>
-    </div>
-    
-    <UtilityModal :show="showModal" @close="showModal = false">
-      <div class="dark:bg-emerald-800 -left-2 h-10 flex items-center px-2">
-        {{ parcelData.tracking_number }}
-      </div>
-      <div>
-      
-      </div>
-    </UtilityModal>
+    </div> 
+    <ParcelEditParcel v-if="showModal" @close="close" /> 
   </div>
 </template>
 
@@ -84,7 +76,7 @@ import { useToast } from 'vue-toastification'
 
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth', ]
+    middleware: ['auth']
   })
 
   useHead({
@@ -97,12 +89,12 @@ import { useToast } from 'vue-toastification'
   const stores = parcelStore()
   const showModal = ref(false)
   const updateData = (detail) => {
-    stores.page = detail;
+    stores.page =  detail;
     stores.parcels = detail.data;
   };
   const parcelData = ref(null)
-  const editParcel = (detail)=>{
-    parcelData.value = detail
+  const editParcel = async(detail)=>{
+    stores.parcel = await detail
     showModal.value = true
   }
   const toast = useToast()
@@ -119,9 +111,9 @@ import { useToast } from 'vue-toastification'
 
   await  stores.fetchParcels();
 
-
-
-
+  const close = ()=>{
+    showModal.value = !showModal.value
+  }
   
 
 </script>

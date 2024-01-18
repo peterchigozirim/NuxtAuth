@@ -14,11 +14,7 @@
 </template>
 
 <script setup>
-  const store = authStore()
-
-  // onBeforeMount(async()=>{
-  //   store.handleFetchUser()
-  // })
+  
   const nav = ref(false)
   const navAll = ()=>{
       nav.value = !nav.value

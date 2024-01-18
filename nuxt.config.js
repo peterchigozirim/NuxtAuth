@@ -42,9 +42,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       bodyAttrs: {
-        class: 'dark:bg-black bg-emerald-50 dark:text-white',
+        class: 'dark:bg-black bg-emerald-50 dark:text-white scrollbar scrollbar-thin',
       },
     },
   },
-  ssr:false
+  ssr: false,
 })
