@@ -5,7 +5,7 @@
     </div>
     
     <div class="md:ml-56">
-      <UtilityDashboardnavbar @navAll="navAll" />
+      <UtilityDashboardnavbar @navAll="navAll" :nav="nav" />
       <div class="md:px-6 w-11/12 md:w-full mx-auto py-2">
         <slot />
       </div>

@@ -95,7 +95,7 @@
         >
           <div
             v-show="show"
-            class="mb-6 bg-white dark:bg-neutral-900 rounded-lg overflow-hidden p-2 shadow-xl overflow-y-auto transform transition-all w-full mx-auto"
+            class="mb-6 bg-white dark:bg-neutral-900 rounded-lg overflow-hidden shadow-xl overflow-y-auto transform transition-all w-full mx-auto"
             :class="maxWidthClass"
           >
             <slot v-if="show" />

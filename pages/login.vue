@@ -45,7 +45,7 @@
   import { useToast } from 'vue-toastification'
 
   definePageMeta({
-    middleware: ['guest']
+    middleware: ['auth']
   })
 	const store = authStore();
   const loader = ref(false)

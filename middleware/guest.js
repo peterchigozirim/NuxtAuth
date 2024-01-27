@@ -3,5 +3,7 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 
     if (auth.isLoginedIn) {
         return await navigateTo("/dashboard", { replace: true });
+    }else {
+        auth.resetUser();
     }
 })

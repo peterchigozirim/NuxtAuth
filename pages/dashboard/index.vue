@@ -5,7 +5,6 @@
 </template>
 
 <script  setup>
-import {definePageMeta} from '#imports'
 
 const store = authStore()
 

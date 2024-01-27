@@ -31,9 +31,11 @@ export const authStore = defineStore('auth', () => {
 
   async function handleFetchUser() {
     const {data, error} = await useAuth("/api/user");
-    if(!error.value === null) {
-      notify(error.value.message, 'error')
-      return navigateTo("/login", { replace: true })
+    if(error.value) {
+      if(error.value.statusCode === 401 || error.value.statusCode === 405) {
+        return resetUser();
+      }
+      return notify(error.value.message, 'error')
     }
     user.value = data.value
   }
@@ -42,7 +44,12 @@ export const authStore = defineStore('auth', () => {
      await useAuth("/logout", {
       method: "POST",
     });
-    user.value = null
+    const token = useCookie("XSRF-TOKEN");
+    const session = useCookie("laravel_session");
+    session.value = null
+    token.value = null
+    const auth = useCookie("auth");
+    // user.value = null
     notify("Logout successful", 'info')
     return navigateTo("/login")
   }
@@ -54,5 +61,15 @@ export const authStore = defineStore('auth', () => {
     })
   }
 
-  return { user, isLoginedIn, notify, handleLogin, handleLogout, handleFetchUser, handleRegister }
+  const resetUser = async () => {
+    
+    const token =  useCookie("XSRF-TOKEN");
+    const session =  useCookie("laravel_session");
+    session.value = null
+    token.value = null
+    user.value = null
+    return navigateTo("/login")
+  }
+
+  return { user, isLoginedIn, notify, handleLogin, handleLogout, handleFetchUser, handleRegister, resetUser }
 }, {persist: true})

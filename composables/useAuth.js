@@ -27,3 +27,11 @@ export const useAuth = async (url, options) => {
 		},
 	}, {server : true});
 };
+
+export const clearLogin = async () => {
+	const token = useCookie("XSRF-TOKEN");
+	token.value = null;
+	const auth = useCookie("auth");
+	auth.value = null;
+	return navigateTo("/login");
+};

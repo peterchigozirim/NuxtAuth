@@ -4,13 +4,16 @@
     <div v-else class="main-content">
       <div class="py-10 space-y-6 text-sm">
         <section class="">
-            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto text-2xl font-serif font-semibold">
-              <p>Quote Information</p>
+            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto">
+              <div>
+                <NuxtLink to="/dashboard/mail/" class="border-emerald-500 border rounded h-9 w-28 flex items-center text-emerald-500 px-2 hover:text-white hover:bg-emerald-500 dark:hover:bg-emerald-700"> <icon name="material-symbols:add" class="mr-1" /> Send Mail</NuxtLink>
+              </div>
             </div>
         </section>
         <!-- Start grid -->
         <section class="">
             <div class="container mx-auto max-w-5xl w-11/12 md:w-auto space-y-6">
+                
                 <div class="space-y-6">
                     <div v-if="stores.mails.length < 1" class="p-4 border border-gray-100/50 rounded-md relative hover:-translate-y-1.5 transition-all duration-500 ease-in-out border-emerald-500 hover:shadow-md hover:shadow-gray-100/30 dark:border-neutral-600 dark:hover:shadow-neutral-900">
                         <div class="flex justify-between items-center ">
@@ -87,13 +90,13 @@ import dayjs from 'dayjs'
   
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth']
+    middleware: ['auth', 'watch-user']
   })
 
 useHead({
-  title: 'Quote Request',
+  title: 'Send Mail',
   meta: [
-    { name: 'description', content: 'Customer request quote.' }
+    { name: 'description', content: 'Send mail details.' }
   ],
 })
 const showModal = ref(false)
@@ -119,3 +122,7 @@ const deleteMail = async(id)=>{
 
 const formattedDate = (date)=> {return dayjs(date).format('DD MMM YYYY')}
 </script>
+
+<style>
+
+</style>

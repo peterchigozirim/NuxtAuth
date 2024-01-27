@@ -7,13 +7,13 @@
                     class="space-y-1 cursor-pointer py-1 md:hidden block transition-all duration-500"
                 >
                     <div
-                        :class="nav ? ' mr-auto' : 'mx-auto'"
+                        :class="props.nav ? ' mr-auto' : 'mx-auto'"
                         class="w-4 h-1 bg-white transition-all duration-500"
                     >
                     </div>
                     <div class="w-7 h-1 bg-white"></div>
                     <div
-                        :class="nav ? ' ml-auto' : 'mx-auto'"
+                        :class="props.nav ? ' ml-auto' : 'mx-auto'"
                         class="w-4 h-1 bg-white transition-all duration-500"
                     >
                     </div>
@@ -80,9 +80,15 @@
   const auth = authStore()
   const emit = defineEmits(["navAll"]);
   const openNav = ref(false)
-  const nav = ref(false)
+  const props = defineProps({
+        nav: {
+            type: Boolean,
+            default: false,
+        },
+    })
+//   const nav = ref(false)
   const navAll = ()=>{
-      nav.value = !nav.value
+      props.nav = !props.nav
       emit('navAll')
       
   }

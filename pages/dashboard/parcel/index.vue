@@ -4,12 +4,13 @@
     <div v-else class="main-content">
       <div class="py-10 space-y-6 text-sm">
         <section class="">
-            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto flex flex-col md:flex-row md:justify-between md:items-center">
-              <div class="w-full md:w-auto">
-                <form action="">
-                  <div class="flex">
-                    <input type="text" class="border-emerald-500 border rounded h-9 rounded-r-none border-r-0 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 placeholder-emerald-500 px-2 text-sm" placeholder="Search">
-                    <button class="border border-emerald-500 text-lg px-2 rounded-r hover:text-white hover:bg-emerald-500 dark:hover:bg-emerald-700"><icon name="ic:round-search"></icon></button>
+            <div class="container mx-auto max-w-5xl w-11/12 md:w-auto flex  gap-5 justify-between md:items-center">
+              <div class="w-auto relative">
+                <button @click="open = true"  class="border md:hidden border-emerald-500 text-emerald-500 text-lg px-2 rounded h-9 hover:text-white hover:bg-emerald-500 dark:hover:bg-emerald-700"><icon name="ic:round-search"></icon></button>
+                <form action="" :class="{'block' : open}" class="absolute hidden md:block w-full md:static top-0 bg-emerald-100 dark:bg-black z-40">
+                  <div class="flex bg-emerald-100 dark:bg-black">
+                    <input type="text" class="border-emerald-500 bg-emerald-50 dark:bg-black border rounded h-9 rounded-r-none border-r-0  outline-none focus:ring-1 focus:ring-emerald-500 placeholder-emerald-500 px-2 text-sm" placeholder="Search">
+                    <button @click="open=false" class="border border-emerald-500 text-lg px-2 rounded-r hover:text-white hover:bg-emerald-500 dark:hover:bg-emerald-700"><icon name="ic:round-search"></icon></button>
                   </div>
                 </form>
               </div>
@@ -88,6 +89,7 @@ import { useToast } from 'vue-toastification'
 
   const stores = parcelStore()
   const showModal = ref(false)
+  const open = ref(false)
   const updateData = (detail) => {
     stores.page =  detail;
     stores.parcels = detail.data;
