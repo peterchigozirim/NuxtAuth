@@ -1,4 +1,5 @@
 <template>
+  <NuxtLoadingIndicator  />
   <UtilityLoader v-if="stores.loading" />
   <div v-else class="space-y-6 pb-20">
     <div class="text-2xl font-semibold">

@@ -34,6 +34,11 @@
                             <icon name="bi:chat-left-quote" class="mr-2 text-xl text-white"/> <span>Quote Request</span>
                         </NuxtLink>
                     </li>
+                    <li>
+                        <NuxtLink @click="emit('close')" to="/dashboard/manage-app" class="py-1 flex items-center hover:text-icon" active-class="text-orange-400">
+                            <icon name="material-symbols:settings-account-box-outline" class="mr-2 text-xl text-white"/> <span>Manage App</span>
+                        </NuxtLink>
+                    </li>
                 </ul>
             </div>
         </div>

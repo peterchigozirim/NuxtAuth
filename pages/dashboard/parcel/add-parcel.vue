@@ -1,4 +1,5 @@
 <template>
+  <NuxtLoadingIndicator  />
   <div class="py-6 space-y-6 text-sm">
     <div class="text-2xl font-semibold">
       Parcel Information

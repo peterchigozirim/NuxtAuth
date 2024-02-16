@@ -9,6 +9,8 @@
     const store = authStore()
 
     onBeforeMount(async()=>{
-        store.handleFetchUser()
+        if(store.isAuthenticated) {
+            await store.handleFetchUser()
+        }
     })
 </script>

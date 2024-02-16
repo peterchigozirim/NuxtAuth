@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxtjs/color-mode',
     '@vee-validate/nuxt',
-    'dayjs-nuxt'
+    'dayjs-nuxt',
+    '@vueuse/nuxt'
   ],
   piniaPersistedstate: {
     cookieOptions: {

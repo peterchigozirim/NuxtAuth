@@ -16,17 +16,16 @@ export const authStore = defineStore('auth', () => {
   }
 
   async function handleRegister(form) {
-    await useFetch("http://localhost:8000/sanctum/csrf-cookie", {
-				credentials: "include",
-			});
-			await useFetch("http://localhost:8000/register", {
-				method: "POST",
-				body: form.value,
-				watch: false,
-				headers: {
-					"Content-Type": "application/json"
-				},
-			});
+    await useAuth("/sanctum/csrf-cookie");
+    const register = await useAuth("/register", {
+      method: "POST",
+      body: form,
+      watch: false,
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    return register;
   }
 
   async function handleFetchUser() {
@@ -49,7 +48,8 @@ export const authStore = defineStore('auth', () => {
     session.value = null
     token.value = null
     const auth = useCookie("auth");
-    // user.value = null
+    user.value = null
+    isLoginedIn.value = false
     notify("Logout successful", 'info')
     return navigateTo("/login")
   }
@@ -68,7 +68,6 @@ export const authStore = defineStore('auth', () => {
     session.value = null
     token.value = null
     user.value = null
-    return navigateTo("/login")
   }
 
   return { user, isLoginedIn, notify, handleLogin, handleLogout, handleFetchUser, handleRegister, resetUser }
