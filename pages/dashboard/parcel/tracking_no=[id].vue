@@ -6,11 +6,11 @@
       Parcel Information
     </div>
     <div class="space-y-4">
-      <div class="text-center text-xl text-emerald-500 font-semibold">
-        <p>DEV & Cargo Service</p>
+      <div class="text-center text-xl text-emerald-500 capitalize font-semibold">
+        <p>{{ app.apps.app_name }} & Cargo Service</p>
       </div>
       <div>
-        Tracking number: {{ $route.params.id }}
+        Tracking Number: {{ $route.params.id }}
       </div>
       <div class="grid md:grid-cols-2 gap-6 text-sm">
         <div>
@@ -20,7 +20,7 @@
           <div class="divide-y bg-emerald-100 dark:bg-transparent">
             <div class="flex items-center justify-between h-10 px-2">
               <div>
-                <p>Estimated Time of Departuer (ETD)</p>
+                <p>Estimated Time of Departure (ETD)</p>
               </div>
               <div>
                 <p>{{ stores.parcel.deputuer_day }}</p>
@@ -66,7 +66,7 @@
           <div class="divide-y bg-emerald-100 dark:bg-transparent">
             <div class="flex items-center justify-between h-10 px-2">
               <div>
-                <p>name</p>
+                <p>Full Name</p>
               </div>
               <div>
                 <p>{{ stores.parcel.sender_name }}</p>
@@ -74,7 +74,7 @@
             </div>
             <div class="flex items-center justify-between h-10 px-2">
               <div>
-                <p>orgin</p>
+                <p>Service Type</p>
               </div>
               <div>
                 <p>{{ stores.parcel.logitsic_type }}</p>
@@ -89,7 +89,7 @@
           <div class="divide-y bg-emerald-100 dark:bg-transparent">
             <div class="flex items-center justify-between h-10 px-2">
               <div>
-                <p>name</p>
+                <p>Full Name</p>
               </div>
               <div>
                 <p>{{ stores.parcel.recepient }}</p>
@@ -126,7 +126,7 @@
             SHIPPING DETAILS
           </div>
           <div class="divide-y bg-emerald-100 dark:bg-transparent">
-            <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:gap-10">
+            <div class="grid md:grid-cols-2 capitalize divide-y md:divide-y-0 md:gap-x-10">
               <div class="flex items-center justify-between h-10 px-2">
                 <div>
                   <p>Item Description</p>
@@ -141,6 +141,14 @@
                 </div>
                 <div>
                   <p>{{ stores.parcel.weight }}</p>
+                </div>
+              </div>
+              <div class="flex items-center  justify-between h-10 px-2">
+                <div>
+                  <p>Status</p>
+                </div>
+                <div >
+                  <p>{{ stores.parcel.status }}</p>
                 </div>
               </div>
             </div>
@@ -216,6 +224,17 @@
                 <VeeField type="text" name="location" placeholder="Current Location Of Parcel" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500  px-2 text-sm" />
                 <VeeErrorMessage name="location" class="text-xs text-red-500" />
               </div>
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">Parcel Status:</label>
+                <VeeField as="select" v-model="stores.parcel.status" name="status" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500  px-2 text-sm">
+                  <option class="dark:text-black" value="pending">pending</option>
+                  <option class="dark:text-black" value="proccessing">Proccessing</option>
+                  <option class="dark:text-black" value="ontransit">Out for delivery</option>
+                  <option class="dark:text-black" value="onhold">On Hold</option>
+                  <option class="dark:text-black" value="delivered">Delivered</option>
+                </VeeField>
+                <VeeErrorMessage name="status" class="text-xs text-red-500" />
+              </div>
                 <VeeField type="text" name="parcel_id" :value="route.params.id" hidden  placeholder="Current Location Of Parcel" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500  px-2 text-sm" />
             </div>
             
@@ -236,10 +255,17 @@
   import dayjs from 'dayjs'
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth', ]
+    // middleware: ['auth', ]
+  })
+  useHead({
+    title: 'Tracking-Parcel',
+    meta: [
+      { name: 'description', content: 'Parcel details.' }
+    ],
   })
   const showModal = ref(false)
   const stores = parcelStore()
+  const app = appStore()
   const route = useRoute()
   onBeforeMount(async() => {
     await stores.fetchOneParcel(route.params.id)
@@ -249,6 +275,7 @@
   const schema = {
     activity: 'required',
     location: 'required',
+    status: 'required'
   }
 
   const submit = async(values, {resetForm}) => {

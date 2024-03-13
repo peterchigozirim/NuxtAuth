@@ -24,6 +24,9 @@ export const useApi = async(url, options) => {
 			...headers,
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*",
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
 		},
 	}, {server : true});
 }

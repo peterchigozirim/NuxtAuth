@@ -78,7 +78,7 @@ import { useToast } from 'vue-toastification'
 
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth']
+    // middleware: ['auth']
   })
 
   useHead({
@@ -112,7 +112,9 @@ import { useToast } from 'vue-toastification'
     }
   }
 
-  await  stores.fetchParcels();
+  onBeforeMount(async() => {
+    await  stores.fetchParcels();
+  })
 
   const close = ()=>{
     showModal.value = !showModal.value

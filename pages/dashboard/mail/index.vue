@@ -64,7 +64,7 @@
   })
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth', 'watch-user']
+    // middleware: ['auth', 'watch-user']
   })
   const schema = {
     subject : 'required',

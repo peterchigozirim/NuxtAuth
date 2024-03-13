@@ -1,14 +1,20 @@
+
 export const useAuth = async (url, options) => {
-	const token = useCookie("XSRF-TOKEN");
+	const csrf = useCookie("XSRF-TOKEN");
+	const config = useRuntimeConfig()
+	const token =  window.localStorage.getItem("token")
+	
 
 	let headers = {};
   
 
-	if (token.value) {
+	if (csrf.value) {
 		headers = {
-			"X-XSRF-TOKEN": token.value,
+			"X-XSRF-TOKEN": csrf.value,
 		};
 	}
+
+	
 
 	if(process.server) {
 		headers = {
@@ -17,15 +23,39 @@ export const useAuth = async (url, options) => {
 		}
 	}
 
-	return await useFetch("http://localhost:8000" + url, {
-		credentials: "include",
-		...options,
-		headers: {
-			...headers,
-			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-		},
-	}, {server : true});
+	if(token){
+		return await useFetch(config.public.apiURL + url, {
+			credentials: "include",
+			...options,
+			headers: {
+				...headers,
+				"Content-Type": "application/json",
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true',
+				'Access-Control-Expose-Headers': '*',
+				'Authorization' : `Bearer ${token}`
+			},
+		}, {server : true});
+	}else{
+		return await useFetch(config.public.apiURL + url, {
+			credentials: "include",
+			...options,
+			headers: {
+				...headers,
+				"Content-Type": "application/json",
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Credentials': 'true',
+				'Access-Control-Expose-Headers': '*',
+			},
+		}, {server : true});
+	}
+
+
+	
 };
 
 export const clearLogin = async () => {

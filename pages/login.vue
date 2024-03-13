@@ -18,7 +18,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6">Password</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-emerald-600 hover:text-emerald-500">Forgot password?</a>
+              <NuxtLink to="/forget-password" class="font-semibold text-emerald-600 hover:text-white">Forgot password?</NuxtLink>
             </div>
           </div>
           <div class="mt-1">
@@ -32,10 +32,6 @@
         </div>
       </VeeForm>
 
-      <p class="mt-10 text-center text-sm text-gray-500">
-        Not a member?
-        <NuxtLink to="/signup" class="font-semibold leading-6 text-emerald-600 hover:text-emerald-500">Create Account</NuxtLink>
-      </p>
     </div>
   </div>
   <UtilityLoader v-show="loader" />
@@ -43,11 +39,16 @@
 
 <script setup>
   import { useToast } from 'vue-toastification'
+import { appStore } from '~/stores/appStore';
 
-  definePageMeta({
-    middleware: ['auth']
+useHead({
+    title: 'Login',
+    meta: [
+      { name: 'description', content: 'Welcome back .' }
+    ],
   })
 	const store = authStore();
+  const app = appStore();
   const loader = ref(false)
 
   const toast = useToast()
@@ -59,15 +60,21 @@
 
 	const submit = async (values, { resetForm }) => {
     loader.value = true
-		const {data, error, status} = await store.handleLogin(values);
-    if (!error.value === null) {
-      resetForm()
+		const {data, error, status, pending} = await store.handleLogin(values);
+    
+    if (error.value) {
+      loader.value = pending.value
       toast.error(error.value.data.message) 
       loader.value = false
     }else if (status.value === 'success') {
+      let token = await data.value.token
+      localStorage.setItem('token', token)
       await store.handleFetchUser()
+      resetForm()
       toast.success('Login Successful')
-      return  navigateTo('/dashboard')
+      navigateTo('/dashboard')
+      await app.handleFetch()
+      return;
     }
 	};
 </script>

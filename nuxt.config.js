@@ -10,8 +10,13 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vee-validate/nuxt',
     'dayjs-nuxt',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    // '@vite-pwa/nuxt'
   ],
+
+  router: {
+    middleware: ['auth-global-middleware'],
+  },
   piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'lax',
@@ -37,11 +42,20 @@ export default defineNuxtConfig({
     { src: '~/plugins/vee-validate' },
     { src: '~/plugins/loadUser' }
   ],
-  router: {
-    middleware: ['auth', 'guest', 'watchUser']	
+  runtimeConfig: {
+    // Keys within public, will be also exposed to the client-side
+    public: {
+      apiURL: process.env.API_URL,
+      localURL: process.env.LOCAL_API_URL,
+    }
   },
   app: {
     head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      link: [
+        { rel: 'icon', href: '/images/logo.png' }
+      ],
       bodyAttrs: {
         class: 'dark:bg-black bg-emerald-50 dark:text-white scrollbar scrollbar-thin',
       },

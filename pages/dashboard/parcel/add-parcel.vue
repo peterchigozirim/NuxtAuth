@@ -108,7 +108,7 @@ import { useToast } from 'vue-toastification'
 
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth', 'watch-user']
+    // middleware: ['auth', 'watch-user']
   })
 
   useHead({

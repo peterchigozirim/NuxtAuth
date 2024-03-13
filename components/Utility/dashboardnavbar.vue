@@ -19,9 +19,9 @@
                     </div>
                 </div>
             </div>
-            <div class="md:hidden">
-                <div class="h-14">
-                    Logo
+            <div class="md:hidden h-full items-center justify-center flex">
+                <div class="font-semibold text-lg font-serif">
+                    <img src="/images/logo.png" alt="SwiftBoxs" class="w-28 mx-auto">
                 </div>
             </div>
             <div class="md:block hidden font-semibold">

@@ -63,7 +63,7 @@
   import { useToast } from 'vue-toastification'
 
   definePageMeta({
-    middleware: ['auth']
+    // middleware: ['auth']
   })
   useHead({
     title: 'Sign Up',

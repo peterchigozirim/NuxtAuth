@@ -1,33 +1,58 @@
 <template>
-  <div class="py-6 space-y-6">
-    <div class="text-2xl font-semibold">
-      App Settings
-    </div>
-    <div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="w-full h-auto relative">
-          <div grid="border border-dash border-black">
-            <div
-              ref="imageDropZoneRef"
-              class="flex flex-col w-full min-h-200px h-auto bg-gray-400/10 justify-center items-center mt-6 rounded"
-            >
-              <div font-bold mb2>
-                Image DropZone
+  <div>
+    <UtilityLoader v-if="store.loader" />
+    <div v-else class="py-6 space-y-6">
+      <div class="text-2xl font-semibold">
+        App Settings
+      </div>
+      <div>
+        <div class="pb-4 text-sm">
+          <VeeForm :validation-schema="schema" @submit="submit">
+            <div class="space-y-4">
+              
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">App Name</label>
+                <VeeField type="text" name="app_name" v-model="store.apps.app_name" placeholder="Enter Site name" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 px-2 pr-3 text-sm" />
+                <VeeErrorMessage name="app_name" class="text-xs text-red-500" />
               </div>
-              <div>
-                isOverDropZone:
-                <BooleanDisplay :value="isOverImageDropZone" />
+
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">Short Name(SWB)</label>
+                <VeeField type="text" name="app_short_name" v-model="store.apps.app_short_name" placeholder="Enter Short name for tracking number" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 px-2 pr-3 text-sm" />
+                <VeeErrorMessage name="app_short_name" class="text-xs text-red-500" />
               </div>
-              <div class="flex flex-wrap justify-center items-center">
-                <div v-for="(file, index) in imageFilesData" :key="index" class="w-200px bg-black-200/10 ma-2 pa-6">
-                  <p>Name: {{ file.name }}</p>
-                  <p>Size: {{ file.size }}</p>
-                  <p>Type: {{ file.type }}</p>
-                  <p>Last modified: {{ file.lastModified }}</p>
+
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">App Email</label>
+                <VeeField type="email" name="app_email" v-model="store.apps.app_email" placeholder="Enter Email Address" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 px-2 pr-3 text-sm" />
+                <VeeErrorMessage name="app_email" class="text-xs text-red-500" />
+              </div>
+
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">Site Phone</label>
+                <VeeField type="text" name="app_phone" v-model="store.apps.app_phone" placeholder="Enter Phone Number" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 px-2 pr-3 text-sm" />
+                <VeeErrorMessage name="app_phone" class="text-xs text-red-500" />
+              </div>
+
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">App Address</label>
+                <VeeField type="text" name="app_address" v-model="store.apps.app_address" placeholder="Enter address" class="border-gray-500 border w-full rounded-md h-9 bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 px-2 pr-3 text-sm" />
+                <VeeErrorMessage name="app_address" class="text-xs text-red-500" />
+              </div>
+
+              <div class="w-full">
+                <label class="block text-sm font-medium mb-1">App Description</label>
+                <VeeField as="textarea"  name="app_description" v-model="store.apps.app_description" placeholder="Enter description" class="border-gray-500 border min-h-[10rem] w-full rounded-md bg-transparent outline-none focus:ring-1 focus:ring-emerald-500 p-2 text-sm" />
+                <VeeErrorMessage name="app_description" class="text-xs text-red-500" />
+              </div>
+
+              <div class="flex justify-center items-center gap-2">
+                <div class="">
+                  <button class="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 p-2 block w-full rounded hover:text-white">Save Changes</button>
                 </div>
               </div>
             </div>
-          </div>
+          </VeeForm>
         </div>
       </div>
     </div>
@@ -35,53 +60,37 @@
 </template>
 
 <script setup>
-  import { useDropZone, useEventListener } from '@vueuse/core'
-  onBeforeMount(async()=>{
-    store.handleFetchUser()
-  })
+
+  const store = appStore()
   definePageMeta({
     layout: 'authlayout',
-    middleware: ['auth']
+    // middleware: ['auth']
   })
 
-
-  const filesData = ref([])
-  const imageFilesData = ref([])
-
-  function onDrop(files) {
-    filesData.value = []
-    if (files) {
-      filesData.value = files.map(file => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-      }))
-    }
-  }
-
-  function onImageDrop(files) {
-    imageFilesData.value = []
-    if (files) {
-      imageFilesData.value = files.map(file => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-      }))
-    }
-  }
-
-  const dropZoneRef = ref()
-  const imageDropZoneRef = ref()
-  const pngRef = ref()
-
-  const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
-
-  useEventListener(pngRef, 'dragstart', (event) => {
-    event.dataTransfer?.setData('image/png', '/vue.png')
+  useHead({
+    title: 'Manage Site',
+    meta: [
+      { name: 'description', content: 'Parcel details.' }
+    ],
   })
 
-  const { isOverDropZone: isOverImageDropZone } = useDropZone(imageDropZoneRef, { dataTypes: ['image/png'], onDrop: onImageDrop })
+  const schema = {
+    app_name : 'required',
+    app_short_name: 'required',
+    app_email : 'required|email',
+    app_phone : 'required',
+    app_address : 'required',
+    app_description : 'required',
+  }
 
+  const submit = async(values)=>{
+    await store.handleSubmit(values)
+    await store.handleFetch()
+  }
+
+  onBeforeMount(async ()=>{
+    if (!store.isFetched) {
+      await store.handleFetch()
+    }
+  })
 </script>

@@ -3,11 +3,12 @@ import {useAuth} from '~/composables/useAuth'
 
 export const authStore = defineStore('auth', () => {
   const user = ref(null)
+  const loader = ref(false)
   
   const isLoginedIn = computed(() => !!user.value)
   async function handleLogin(form) {
       await useAuth("/sanctum/csrf-cookie");
-		  const login = await useAuth("/login", {
+		  const login = await useAuth("/api/login", {
 				method: "POST",
 				body: form,
 		    watch: false,
@@ -39,15 +40,31 @@ export const authStore = defineStore('auth', () => {
     user.value = data.value
   }
 
+  const handleChangePassword = async(form)=>{
+    loader.value = true
+    const {data, error, status, pending } = await useAuth('/api/change-password',{
+      method: "POST",
+      body: form,
+    })
+    loader.value = pending.value
+    if (error.value) {
+      if(error.value.statusCode === 401 || error.value.statusCode === 405) {
+        return resetUser();
+      }
+      return notify(error.value.message, 'error')
+    }
+    if (status.value === 'success') {
+      return notify(data.value.message, 'success')
+    }
+  }
+
   async function handleLogout() {
-     await useAuth("/logout", {
+     await useAuth("/api/log-out", {
       method: "POST",
     });
     const token = useCookie("XSRF-TOKEN");
-    const session = useCookie("laravel_session");
-    session.value = null
+    window.localStorage.removeItem('token')
     token.value = null
-    const auth = useCookie("auth");
     user.value = null
     isLoginedIn.value = false
     notify("Logout successful", 'info')
@@ -64,11 +81,10 @@ export const authStore = defineStore('auth', () => {
   const resetUser = async () => {
     
     const token =  useCookie("XSRF-TOKEN");
-    const session =  useCookie("laravel_session");
-    session.value = null
+    window.localStorage.removeItem('token')
     token.value = null
     user.value = null
   }
 
-  return { user, isLoginedIn, notify, handleLogin, handleLogout, handleFetchUser, handleRegister, resetUser }
-}, {persist: true})
+  return { user, loader, isLoginedIn, notify, handleLogin, handleLogout, handleFetchUser, handleRegister, resetUser, handleChangePassword }
+})
