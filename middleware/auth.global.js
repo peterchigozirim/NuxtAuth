@@ -1,10 +1,5 @@
 export default defineNuxtRouteMiddleware(async(to, from) => {
     const auth = authStore();
-    
-
-    // if (!auth.isLoginedIn) {
-    //     auth.resetUser()
-    // }
     if (!auth.isLoginedIn) {
         
         if (to.path === '/login') {
@@ -19,9 +14,5 @@ export default defineNuxtRouteMiddleware(async(to, from) => {
 
 
     }
-    
-    // if (to.path === '/_dashboard' && !auth.isLoginedIn) {
-    //     return navigateTo('/login', {replace: true})
-    // }
 })
 

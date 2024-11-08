@@ -1,11 +1,15 @@
 
 
 <template>
+    <VitePwaManifest />
+    <NuxtLoadingIndicator  />
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
 </template>
 <script setup>
+    // If you want to use it in setup, import from the nuxtApp.
+   
 
     const store = authStore()
     const app = appStore()

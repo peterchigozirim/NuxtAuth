@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const sw = process.env.SW === 'true'
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
@@ -11,12 +12,74 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'dayjs-nuxt',
     '@vueuse/nuxt',
-    // '@vite-pwa/nuxt'
+    '@vite-pwa/nuxt'
   ],
+
+  pwa: {
+    strategies: 'injectManifest' ,
+    srcDir: 'service-worker',
+    filename: 'sw.ts',
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'SwiftBoxs',
+      short_name: 'SwiftBoxs',
+      theme_color: '#047857',
+      background_color: '#047857',
+      icons: [
+        {
+          "src": "icons/manifest-icon-192.maskable.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/manifest-icon-192.maskable.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "maskable"
+        },
+        {
+          "src": "icons/manifest-icon-512.maskable.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/manifest-icon-512.maskable.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ],
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    injectManifest: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    client: {
+      installPrompt: true,
+      // you don't need to include this: only for testing purposes
+      // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
+      periodicSyncForUpdates: 20,
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallback: '/login',
+      navigateFallbackAllowlist: [/^\/$/],
+      type: 'module',
+    },
+  },
 
   router: {
     middleware: ['auth-global-middleware'],
   },
+  routeRules:{
+    '/': { redirect: '/login' }, 
+  },
+
   piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'lax',

@@ -20,7 +20,8 @@
           </div>
       </div> -->
       <div>
-        SwiftBoxs
+        <img src="/images/logo.png" alt="SwiftBoxs" class="w-28 dark:block hidden" />
+        <img src="/images/logo_black.png" alt="SwiftBoxs" class="w-28 dark:hidden block" />
       </div>
       <!-- <div :class="nav? 'top-14': '-top-[100%]'" class="fixed md:static [z-index: -1] md:top-0 left-0 transition-all duration-500 w-full md:w-auto bg-emerald-600 md:bg-transparent rounded-b-3xl md:rounded-none p-4 md:p-0">
         <ul class="flex md:flex-row flex-col gap-4 items-center">

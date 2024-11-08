@@ -5,7 +5,7 @@
       <div class="py-10 space-y-6 text-sm">
         <section class="">
             <div class="container mx-auto max-w-5xl w-11/12 md:w-auto text-2xl font-serif font-semibold">
-              <p>contact Information</p>
+              <p>Contact Us</p>
             </div>
         </section>
         <!-- Start grid -->
